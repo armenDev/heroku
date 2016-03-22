@@ -1,0 +1,11 @@
+{
+    "name": "test/app8",
+    "description": "Campaign",
+    "authors": [
+        {
+            "name": "Armen",
+            "email": "armen.zaqaryan1959@gmail.com"
+        }
+    ],
+    "require": {}
+}
