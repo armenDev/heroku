@@ -51,7 +51,7 @@ class System_routes{
                 echo "Class not found";
             } 
         }else{
-            echo "First page";
+           return true;
         }
         
     }
