@@ -41,17 +41,21 @@ class System_routes{
                         var_dump($ctrl_obj->search());
                         break; 
                     case "search":
-                        echo "Search work like search_auto";
+                        if(isset($_POST['user'])){
+                            $user = $_POST['user'];
+                            var_dump($ctrl_obj->search_user($user));
+                        }else{
+                            echo "User info not found";
+                        }
                         break; 
                     default:
                         echo "Not found the function";
                 }
- 
             }else{
                 echo "Class not found";
             } 
         }else{
-           return true;
+            return true;
         }
         
     }

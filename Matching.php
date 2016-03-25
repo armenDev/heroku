@@ -23,6 +23,7 @@ class Matching
      */
     public function importCamp($tmp_name)
     {
+
         $content = json_decode(file_get_contents($tmp_name));
 
         if(!$content)
@@ -54,27 +55,25 @@ class Matching
      * @return mixed
      */
     public function search()
-
     {
-        // this is the right version
-        // $user = json_decode($this->users->createUser());
+       // this is the right version
+        $user = json_decode($this->users->createUser(),true);
 
         // this is for testing, it has corresponding data with db
-        $user = new  stdClass();
-        $user->user = 'u3';
+        // $user = new  stdClass();
+        // $user->user = 'u3';
         //$user->profile = ['attr_A'=>'A12','attr_B'=>'B20','attr_C'=>'C5'];
-        $user->profile = ['attr_A'=>'A1','attr_B'=>'B10'];
+        // $user->profile = ['attr_A'=>'A1','attr_B'=>'B10'];
 
         $campaigns = $this->getCamp();
-       
         foreach($campaigns as $key => $value)
         {
             $bool = true;
             $target_list = unserialize($value['target_list']);
             foreach($target_list as $target_key => $target_value)
             {
-                if(array_key_exists($target_value->target,$user->profile)){
-                    if(!in_array($user->profile[$target_value->target],$target_value->attr_list))
+                if(array_key_exists($target_value->target,$user['profile'])){
+                    if(!in_array($user['profile'][$target_value->target],$target_value->attr_list))
                     {
                         $bool = false;
                     }
@@ -85,6 +84,32 @@ class Matching
             }
        }
 
+        return null;
+    }
+
+    public function search_user($user)
+    {
+        $user = json_decode($user,true);
+
+        $campaigns = $this->getCamp();
+       
+        foreach($campaigns as $key => $value)
+        {
+            $bool = true;
+            $target_list = unserialize($value['target_list']);
+            foreach($target_list as $target_key => $target_value)
+            {
+                if(array_key_exists($target_value->target,$user['profile'])){
+                    if(!in_array($user['profile'][$target_value->target],$target_value->attr_list))
+                    {
+                        $bool = false;
+                    }
+                }
+            }
+            if($bool){
+                return json_encode(array('winner' => $value['compaign_name']));
+            }
+       }
         return null;
     }
 }
